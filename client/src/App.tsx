@@ -15,6 +15,13 @@ export default function App() {
 
   const rankings = useRankings(platform, rankingType, countries);
 
+  function handlePlatformChange(p: Platform) {
+    setPlatform(p);
+    if (p === 'apple' && rankingType === 'top-grossing') {
+      setRankingType('top-free');
+    }
+  }
+
   function addCountry(code: string) {
     setCountries(prev => prev.includes(code) ? prev : [...prev, code]);
   }
@@ -28,8 +35,8 @@ export default function App() {
       <header className="app-header">
         <h1 className="app-title">📊 앱스토어 순위</h1>
         <div className="controls">
-          <PlatformTabs value={platform} onChange={setPlatform} />
-          <RankingTabs value={rankingType} onChange={setRankingType} />
+          <PlatformTabs value={platform} onChange={handlePlatformChange} />
+          <RankingTabs value={rankingType} platform={platform} onChange={setRankingType} />
         </div>
         <CountrySelector
           selected={countries}

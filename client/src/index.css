@@ -84,6 +84,8 @@ a { color: inherit; text-decoration: none; }
 .tab-btn:hover { background: var(--surface2); color: var(--text); }
 .tab-btn.active { background: var(--accent); color: #fff; }
 .tab-btn.small { padding: 5px 12px; font-size: 12px; }
+.tab-btn.disabled { opacity: 0.35; cursor: not-allowed; }
+.tab-btn.disabled:hover { background: transparent; color: var(--text-sub); }
 
 /* ── Country Selector ── */
 .country-selector { padding-bottom: 14px; }
