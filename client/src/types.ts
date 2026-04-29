@@ -1,3 +1,41 @@
+export interface Category {
+  value: string;   // google-play-scraper category key (e.g. 'GAME') or '' for all
+  label: string;
+  group?: string;  // 그룹 헤더 (optgroup용)
+}
+
+export const GOOGLE_CATEGORIES: Category[] = [
+  { value: '',                  label: '전체' },
+  { value: 'GAME',              label: '게임 전체',     group: '게임' },
+  { value: 'GAME_ACTION',       label: '├ 액션',        group: '게임' },
+  { value: 'GAME_ADVENTURE',    label: '├ 어드벤처',    group: '게임' },
+  { value: 'GAME_ARCADE',       label: '├ 아케이드',    group: '게임' },
+  { value: 'GAME_CASUAL',       label: '├ 캐주얼',      group: '게임' },
+  { value: 'GAME_PUZZLE',       label: '├ 퍼즐',        group: '게임' },
+  { value: 'GAME_RACING',       label: '├ 레이싱',      group: '게임' },
+  { value: 'GAME_ROLE_PLAYING', label: '├ RPG',         group: '게임' },
+  { value: 'GAME_SIMULATION',   label: '├ 시뮬레이션',  group: '게임' },
+  { value: 'GAME_STRATEGY',     label: '└ 전략',        group: '게임' },
+  { value: 'SOCIAL',            label: '소셜',           group: '앱' },
+  { value: 'COMMUNICATION',     label: '커뮤니케이션',   group: '앱' },
+  { value: 'ENTERTAINMENT',     label: '엔터테인먼트',   group: '앱' },
+  { value: 'MUSIC_AND_AUDIO',   label: '음악',           group: '앱' },
+  { value: 'PHOTOGRAPHY',       label: '사진',           group: '앱' },
+  { value: 'VIDEO_PLAYERS',     label: '동영상',         group: '앱' },
+  { value: 'PRODUCTIVITY',      label: '생산성',         group: '앱' },
+  { value: 'TOOLS',             label: '도구',           group: '앱' },
+  { value: 'SHOPPING',          label: '쇼핑',           group: '앱' },
+  { value: 'FINANCE',           label: '금융',           group: '앱' },
+  { value: 'EDUCATION',         label: '교육',           group: '앱' },
+  { value: 'HEALTH_AND_FITNESS',label: '건강/피트니스',  group: '앱' },
+  { value: 'TRAVEL_AND_LOCAL',  label: '여행',           group: '앱' },
+  { value: 'NEWS_AND_MAGAZINES',label: '뉴스',           group: '앱' },
+  { value: 'SPORTS',            label: '스포츠',         group: '앱' },
+  { value: 'FOOD_AND_DRINK',    label: '음식/음료',      group: '앱' },
+  { value: 'LIFESTYLE',         label: '라이프스타일',   group: '앱' },
+  { value: 'BUSINESS',          label: '비즈니스',       group: '앱' },
+];
+
 export interface App {
   rank: number;
   name: string;

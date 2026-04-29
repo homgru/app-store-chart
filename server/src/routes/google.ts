@@ -12,13 +12,14 @@ const COLLECTION_MAP: Record<string, gplay.collection> = {
 
 router.get('/:country/:type', async (req: Request, res: Response) => {
   const { country, type } = req.params;
+  const { category } = req.query as { category?: string };
   const collection = COLLECTION_MAP[type];
   if (!collection) {
     res.status(400).json({ error: 'Invalid type. Use top-free, top-paid, or top-grossing.' });
     return;
   }
 
-  const cacheKey = `google:${country}:${type}`;
+  const cacheKey = `google:${country}:${type}:${category ?? 'all'}`;
   const cached = cache.get<object>(cacheKey);
   if (cached) {
     res.json(cached);
@@ -31,6 +32,7 @@ router.get('/:country/:type', async (req: Request, res: Response) => {
       country,
       num: 50,
       fullDetail: false,
+      ...(category ? { category: category as gplay.category } : {}),
     });
 
     const apps = results.map((app, i) => ({

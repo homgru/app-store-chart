@@ -11,7 +11,8 @@ export interface CountryRankings {
 export function useRankings(
   platform: Platform,
   type: RankingType,
-  countries: string[]
+  countries: string[],
+  category: string
 ): Record<string, CountryRankings> {
   const [rankings, setRankings] = useState<Record<string, CountryRankings>>({});
   const countriesKey = countries.join(',');
@@ -29,7 +30,10 @@ export function useRankings(
     );
 
     countries.forEach(code => {
-      fetch(`/api/${platform}/${code}/${type}`)
+      const params = platform === 'google' && category
+        ? `?category=${encodeURIComponent(category)}`
+        : '';
+      fetch(`/api/${platform}/${code}/${type}${params}`)
         .then(res => {
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           return res.json();
@@ -48,7 +52,7 @@ export function useRankings(
         });
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [platform, type, countriesKey]);
+  }, [platform, type, countriesKey, category]);
 
   return rankings;
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PlatformTabs from './components/PlatformTabs';
 import RankingTabs from './components/RankingTabs';
 import CountrySelector from './components/CountrySelector';
+import CategorySelector from './components/CategorySelector';
 import RankingTable from './components/RankingTable';
 import { useRankings } from './hooks/useRankings';
 import type { Platform, RankingType } from './types';
@@ -11,15 +12,17 @@ const DEFAULT_COUNTRIES = ['kr', 'us', 'jp'];
 export default function App() {
   const [platform, setPlatform] = useState<Platform>('google');
   const [rankingType, setRankingType] = useState<RankingType>('top-free');
+  const [category, setCategory] = useState<string>('');
   const [countries, setCountries] = useState<string[]>(DEFAULT_COUNTRIES);
 
-  const rankings = useRankings(platform, rankingType, countries);
+  const rankings = useRankings(platform, rankingType, countries, category);
 
   function handlePlatformChange(p: Platform) {
     setPlatform(p);
     if (p === 'apple' && rankingType === 'top-grossing') {
       setRankingType('top-free');
     }
+    if (p === 'apple') setCategory('');
   }
 
   function addCountry(code: string) {
@@ -37,6 +40,7 @@ export default function App() {
         <div className="controls">
           <PlatformTabs value={platform} onChange={handlePlatformChange} />
           <RankingTabs value={rankingType} platform={platform} onChange={setRankingType} />
+          <CategorySelector value={category} platform={platform} onChange={setCategory} />
         </div>
         <CountrySelector
           selected={countries}
