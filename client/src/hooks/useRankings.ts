@@ -23,6 +23,8 @@ export function useRankings(
       return;
     }
 
+    const controller = new AbortController();
+
     setRankings(
       Object.fromEntries(
         countries.map(code => [code, { countryCode: code, apps: [], loading: true, error: null }])
@@ -33,7 +35,7 @@ export function useRankings(
       const params = platform === 'google' && category
         ? `?category=${encodeURIComponent(category)}`
         : '';
-      fetch(`/api/${platform}/${code}/${type}${params}`)
+      fetch(`/api/${platform}/${code}/${type}${params}`, { signal: controller.signal })
         .then(res => {
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           return res.json();
@@ -44,13 +46,16 @@ export function useRankings(
             [code]: { countryCode: code, apps: data.apps, loading: false, error: null },
           }));
         })
-        .catch(() => {
+        .catch((err: unknown) => {
+          if (err instanceof Error && err.name === 'AbortError') return;
           setRankings(prev => ({
             ...prev,
             [code]: { countryCode: code, apps: [], loading: false, error: '데이터를 불러오지 못했습니다' },
           }));
         });
     });
+
+    return () => controller.abort();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [platform, type, countriesKey, category]);
 

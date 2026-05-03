@@ -48,6 +48,7 @@ router.get('/:country/:type', async (req: Request, res: Response) => {
     cache.set(cacheKey, payload);
     res.json(payload);
   } catch (err) {
+    console.error('[google] Failed to fetch rankings:', err);
     res.status(500).json({ error: 'Failed to fetch Google Play rankings' });
   }
 });
