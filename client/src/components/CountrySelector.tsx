@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { COUNTRIES } from '../types';
+import type { Country } from '../types';
 
 interface Props {
   selected: string[];
@@ -29,7 +30,9 @@ export default function CountrySelector({ selected, onAdd, onRemove, max = 5 }: 
       (c.name.includes(query) || c.code.includes(query.toLowerCase()) || c.flag.includes(query))
   );
 
-  const selectedCountries = COUNTRIES.filter(c => selected.includes(c.code));
+  const selectedCountries = selected
+    .map(code => COUNTRIES.find(c => c.code === code))
+    .filter((c): c is Country => c !== undefined);
 
   return (
     <div className="country-selector">

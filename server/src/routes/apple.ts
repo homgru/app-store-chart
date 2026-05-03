@@ -17,6 +17,11 @@ router.get('/:country/:type', async (req: Request, res: Response) => {
     return;
   }
 
+  if (type === 'top-grossing') {
+    res.status(400).json({ error: 'top-grossing is not supported for Apple App Store' });
+    return;
+  }
+
   const cacheKey = `apple:${country}:${type}`;
   const cached = cache.get<object>(cacheKey);
   if (cached) {
@@ -47,6 +52,7 @@ router.get('/:country/:type', async (req: Request, res: Response) => {
     cache.set(cacheKey, payload);
     res.json(payload);
   } catch (err) {
+    console.error('[apple] Failed to fetch rankings:', err);
     res.status(500).json({ error: 'Failed to fetch Apple rankings' });
   }
 });
