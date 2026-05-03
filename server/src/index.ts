@@ -36,8 +36,3 @@ export function startServer(opts: StartOptions = {}): Promise<void> {
     server.on('error', reject);
   });
 }
-
-// tsx로 직접 실행할 때 자동 시작
-if (require.main === module) {
-  startServer();
-}
