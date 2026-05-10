@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import type { Server } from 'node:http';
 import appleRouter from './routes/apple';
 import googleRouter from './routes/google';
 
@@ -11,28 +12,28 @@ interface StartOptions {
   staticPath?: string;
 }
 
-export function startServer(opts: StartOptions = {}): Promise<void> {
+export function startServer(opts: StartOptions = {}): Promise<Server> {
   return new Promise((resolve, reject) => {
-    const app = express();
+    const expressApp = express();
 
-    app.use(cors());
-    app.use(express.json());
+    expressApp.use(cors());
+    expressApp.use(express.json());
 
-    app.use('/api/apple', appleRouter);
-    app.use('/api/google', googleRouter);
+    expressApp.use('/api/apple', appleRouter);
+    expressApp.use('/api/google', googleRouter);
 
     if (opts.serveStatic && opts.staticPath) {
-      app.use(express.static(opts.staticPath));
-      app.get('*', (_req, res) => {
+      expressApp.use(express.static(opts.staticPath));
+      expressApp.get('*', (_req, res) => {
         res.sendFile(path.join(opts.staticPath!, 'index.html'));
       });
     }
 
-    const server = app.listen(PORT, () => {
+    const server = expressApp.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}`);
-      resolve();
+      resolve(server);
     });
 
-    server.on('error', reject);
+    server.once('error', reject);
   });
 }

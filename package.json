@@ -24,17 +24,18 @@
     "@types/node": "^20.11.0",
     "concurrently": "^9.0.0",
     "cross-env": "^7.0.0",
-    "esbuild": "^0.25.0",
-    "electron": "^41.0.0",
+    "electron": "41.5.0",
     "electron-builder": "^25.0.0",
+    "esbuild": "^0.25.0",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "wait-on": "^8.0.0"
   },
   "build": {
     "appId": "com.appstorex.chart",
-    "productName": "앱스토어 순위",
-    "asar": false,
+    "productName": "App Store Chart",
+    "executableName": "app-store-chart",
+    "asar": true,
     "directories": {
       "output": "release"
     },
@@ -46,7 +47,10 @@
     "mac": {
       "category": "public.app-category.utilities",
       "target": "dmg",
-      "hardenedRuntime": false
+      "hardenedRuntime": false,
+      "extendInfo": {
+        "CFBundleDisplayName": "앱스토어 순위"
+      }
     },
     "win": {
       "target": "nsis"
