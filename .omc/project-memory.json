@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1778711433122,
+  "projectRoot": "/Users/donghokim/Desktop/Projects/app-store-chart",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "express",
+        "version": "4.18.2",
+        "category": "backend"
+      },
+      {
+        "name": "esbuild",
+        "version": "0.25.0",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "npm run build:electron && concurrently -n server,client,electron -c blue,green,yellow \"npm run dev:server\" \"npm run dev:client\" \"npm run dev:electron\"",
+      "dev:server": "tsx watch server/src/index.ts",
+      "dev:client": "cd client && npx vite --port 5173",
+      "dev:electron": "wait-on http://localhost:5173 http://localhost:3001 && npx cross-env NODE_ENV=development electron .",
+      "build:electron": "esbuild electron/main.ts --bundle --platform=node --packages=external --external:electron --outfile=dist-electron/main.js",
+      "build:client": "cd client && npx vite build",
+      "build": "npm run build:electron && npm run build:client",
+      "dist": "npm run build && electron-builder"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "client": {
+      "path": "client",
+      "purpose": null,
+      "fileCount": 11,
+      "lastAccessed": 1778711433109,
+      "keyFiles": [
+        "README.md",
+        "eslint.config.js",
+        "index.html",
+        "package-lock.json",
+        "package.json"
+      ]
+    },
+    "dist-electron": {
+      "path": "dist-electron",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1778711433110,
+      "keyFiles": [
+        "main.js"
+      ]
+    },
+    "electron": {
+      "path": "electron",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1778711433112,
+      "keyFiles": [
+        "main.ts"
+      ]
+    },
+    "release": {
+      "path": "release",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1778711433112,
+      "keyFiles": [
+        "App Store Chart-1.0.0-arm64.dmg",
+        "builder-debug.yml",
+        "latest-mac.yml",
+        "앱스토어 순위-1.0.0-arm64.dmg"
+      ]
+    },
+    "server": {
+      "path": "server",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1778711433112,
+      "keyFiles": [
+        "package-lock.json",
+        "package.json",
+        "tsconfig.json"
+      ]
+    },
+    "client/dist": {
+      "path": "client/dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 3,
+      "lastAccessed": 1778711433112,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg",
+        "index.html"
+      ]
+    },
+    "client/node_modules": {
+      "path": "client/node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1778711433113,
+      "keyFiles": []
+    },
+    "server/node_modules": {
+      "path": "server/node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1778711433114,
+      "keyFiles": []
+    },
+    "server/src": {
+      "path": "server/src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1778711433114,
+      "keyFiles": [
+        "cache.ts",
+        "index.ts"
+      ]
+    }
+  },
+  "hotPaths": [],
+  "userDirectives": []
+}
