@@ -9,6 +9,7 @@
 ## 주요 기능
 
 - **플랫폼 전환** — Google Play / App Store 탭으로 즉시 전환
+- **카테고리 선택** — 각 스토어 고유 카테고리를 표시하고 플랫폼별 선택값 유지
 - **랭킹 타입** — 무료 / 유료 / 매출 순위 선택
 - **국가 비교** — 최대 5개 국가를 나란히 비교 (30개국 지원)
 - **앱 아이콘** — 아이콘, 앱 이름, 개발사 표시
@@ -34,7 +35,7 @@
 | TypeScript | 타입 안전성 |
 | tsx | TypeScript 실행 (개발) |
 | google-play-scraper | 구글 플레이 순위 스크래핑 |
-| Apple Marketing Tools RSS | 앱스토어 공식 RSS 피드 |
+| Apple Marketing Tools / iTunes RSS | 전체 순위 / 카테고리별 무료·유료 순위 |
 
 ### 데스크톱 (`/electron`)
 | 기술 | 용도 |
@@ -162,6 +163,18 @@ release/mac-arm64/app-store-chart.app/Contents/MacOS/app-store-chart
 ```
 GET /api/apple/:country/:type
 GET /api/google/:country/:type
+```
+
+두 API 모두 `?category=...`를 지원합니다. Google은 `GAME`, `PRODUCTIVITY` 등의 키를,
+Apple은 `6014`(게임), `6007`(생산성) 등의 카테고리 ID를 사용합니다.
+Apple 카테고리 목록은 `shared/appleCategories.ts`에서 프론트엔드와 서버가 공유합니다.
+Apple의 전체 순위는 Marketing Tools RSS, 카테고리별 순위는 iTunes RSS를 사용합니다.
+Apple 매출 순위는 지원하지 않습니다.
+
+카테고리별 API 응답 변환, 캐시 분리, 입력 검증 테스트:
+
+```bash
+node --import tsx --test server/src/routes/apple.test.ts
 ```
 
 | 파라미터 | 값 |

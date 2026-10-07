@@ -32,7 +32,7 @@ export function useRankings(
     );
 
     countries.forEach(code => {
-      const params = platform === 'google' && category
+      const params = category
         ? `?category=${encodeURIComponent(category)}`
         : '';
       fetch(`/api/${platform}/${code}/${type}${params}`, { signal: controller.signal })

@@ -1,5 +1,5 @@
 export interface Category {
-  value: string;   // google-play-scraper category key (e.g. 'GAME') or '' for all
+  value: string;   // Store category key or '' for all
   label: string;
   group?: string;  // 그룹 헤더 (optgroup용)
 }

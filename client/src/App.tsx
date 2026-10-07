@@ -12,7 +12,8 @@ const DEFAULT_COUNTRIES = ['kr', 'us', 'jp'];
 export default function App() {
   const [platform, setPlatform] = useState<Platform>('google');
   const [rankingType, setRankingType] = useState<RankingType>('top-free');
-  const [category, setCategory] = useState<string>('');
+  const [categories, setCategories] = useState<Record<Platform, string>>({ apple: '', google: '' });
+  const category = categories[platform];
   const [countries, setCountries] = useState<string[]>(DEFAULT_COUNTRIES);
 
   const rankings = useRankings(platform, rankingType, countries, category);
@@ -22,7 +23,6 @@ export default function App() {
     if (p === 'apple' && rankingType === 'top-grossing') {
       setRankingType('top-free');
     }
-    if (p === 'apple') setCategory('');
   }
 
   function addCountry(code: string) {
@@ -40,7 +40,9 @@ export default function App() {
         <div className="controls">
           <PlatformTabs value={platform} onChange={handlePlatformChange} />
           <RankingTabs value={rankingType} platform={platform} onChange={setRankingType} />
-          <CategorySelector value={category} platform={platform} onChange={setCategory} />
+          <CategorySelector value={category} platform={platform} onChange={value => {
+            setCategories(prev => ({ ...prev, [platform]: value }));
+          }} />
         </div>
         <CountrySelector
           selected={countries}

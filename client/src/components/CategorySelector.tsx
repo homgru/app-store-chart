@@ -1,4 +1,5 @@
 import { GOOGLE_CATEGORIES } from '../types';
+import { APPLE_CATEGORIES } from '../../../shared/appleCategories';
 import type { Platform } from '../types';
 
 interface Props {
@@ -8,24 +9,29 @@ interface Props {
 }
 
 export default function CategorySelector({ value, platform, onChange }: Props) {
-  const disabled = platform === 'apple';
+  const categories = platform === 'apple' ? APPLE_CATEGORIES : GOOGLE_CATEGORIES;
+  const groups = [...new Set(categories.map(cat => cat.group).filter(Boolean))];
 
   return (
-    <div
-      className={`category-selector ${disabled ? 'disabled' : ''}`}
-      title={disabled ? 'App Store는 카테고리별 순위를 제공하지 않습니다' : undefined}
-    >
-      <label className="category-label">카테고리</label>
+    <div className="category-selector">
+      <label className="category-label" htmlFor="store-category">카테고리</label>
       <select
         className="category-select"
+        id="store-category"
         value={value}
-        disabled={disabled}
         onChange={e => onChange(e.target.value)}
       >
-        {GOOGLE_CATEGORIES.map(cat => (
+        {categories.filter(cat => !cat.group).map(cat => (
           <option key={cat.value} value={cat.value}>
             {cat.label}
           </option>
+        ))}
+        {groups.map(group => (
+          <optgroup key={group} label={group}>
+            {categories.filter(cat => cat.group === group).map(cat => (
+              <option key={cat.value} value={cat.value}>{cat.label}</option>
+            ))}
+          </optgroup>
         ))}
       </select>
     </div>
